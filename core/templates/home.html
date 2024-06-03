@@ -147,7 +147,7 @@
                 console.log(result);
                 if (result.status === 200) {
                     alert("File(s) uploaded successfully!\n\nGet the files Url below");
-                    url = `https://127.0.0.1:8000/download/${result.data.folder}`;
+                    url = `http://127.0.0.1:8000/download/${result.data.folder}`;
                     document.getElementById('btn').style.display = 'block';
                 } else {
                     alert("Please Upload Something:( ");

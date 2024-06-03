@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser
-from .serializers import *
+from .serializers import FileListSerializer
 
 def home(request):
     return render(request,'home.html')
@@ -11,26 +10,18 @@ def download(request, uid):
     return render(request, 'download.html',context = {'uid': uid})
 
 class HandleFileUpload(APIView):
-    parser_classes = [MultiPartParser]
-    def post(self,request):
-        try:
-            data=request.data
-            
-            serializer = FileListSerializers(data=data)
-
-            if serializer.is_valid():
-                serializer.save()
-                return Response({
-                    'status' : 200,
-                    'message' : 'Files Uploaded Successfully',
-                    'data' : serializer.data
-                })
-
+    def post(self, request):
+        serializer = FileListSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
             return Response({
-                'status' : 400,
-                'message' : 'Something Went Wrong',
-                'data' : serializer.errors
+                'status': 200,
+                'message': 'Files Uploaded Successfully',
+                'data': serializer.data
             })
-        except Exception as e:
-            print(e)
-            
+        else:
+            return Response({
+                'status': 400,
+                'message': 'Something Went Wrong',
+                'data': serializer.errors
+            })

@@ -94,7 +94,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-    
+
+    <div id="message" class="text-center" style="display: none;">
+        <p>This is a Personal Project, so avoid uploading more than 30MB of data. Thank you :)</p>
+    </div>
 
     <div class="text-center">
         <img src="/media/image/undraw.svg" class="img-fluid img-responsive" style="height: 200px;">
@@ -130,7 +133,7 @@
             var formdata = new FormData();
 
             for (var i = 0; i < files.length; i++) {
-                formdata.append('files', files[i].file);
+                formdata.append('files', files[i].file)
             }
 
             fetch('/handle/', {
@@ -139,27 +142,29 @@
                     'X-CSRFToken': "{{csrf_token}}"
                 },
                 body: formdata
-            })
-            .then(res => res.json())
+            }).then(res => res.json())
             .then(result => {
                 console.log(result);
-                var message = "File(s) uploaded successfully!\n\n";
-                message += "• Get the Zipped Url below\n";
-                alert(message);
-                url = `http://127.0.0.1:8000/download/${result.data.folder}`;
-                document.getElementById('btn').style.display = 'block';
-               
+                if (result.status === 200) {
+                    alert("File(s) uploaded successfully!\n\nGet the files Url below");
+                    url = `https://aryan200902.pythonanywhere.com/download/${result.data.folder}`;
+                    document.getElementById('btn').style.display = 'block';
+                } else {
+                    alert("Please Upload Something:( ");
+                }
+
+
             })
         }
 
         function copyClip() {
-            console.log('dd');
-
             navigator.clipboard.writeText(url);
             alert("Copied the text: " + url);
         }
 
-        
+        document.addEventListener('DOMContentLoaded', function () {
+            alert("This is a Personal Project, so avoid uploading more than 30MB of data. Thank you :)");
+        });
     </script>
 
 </body>

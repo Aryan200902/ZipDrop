@@ -14,7 +14,7 @@ To run ZipDrop locally, follow these steps:
 
 1. Clone this repository to your local machine.
     ```bash
-    git clone https://github.com/your-username/zipdrop.git
+    git clone https://github.com/Aryan200902/Zipdrop.git
     cd zipdrop
     ```
 2. Install Python (if not already installed).
